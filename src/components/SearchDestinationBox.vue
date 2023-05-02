@@ -9,18 +9,25 @@
         <label class="text-weight-medium" for="destination">
           Destino<span class="text-negative">*</span>
         </label>
-        <q-input
+        <q-select
           outlined
           dense
           placeholder="Digite uma cidade..."
+          use-input
+          hide-selected
+          fill-input
+          input-debounce="0"
+          @filter="filterFn"
+          @input-value="setModel"
           id="destination"
+          :options="options"
           v-model="destination"
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Campo vazio.']"
         />
       </q-card-section>
-      <q-card-section class="q-pt-none" align="right">
+      <q-card-section align="right">
         <q-btn
+          :disabled="!destination.value || destination.value == ''"
+          type="submit"
           rounded
           no-caps
           color="primary"
@@ -33,6 +40,28 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import destinationDataJson from '../data/place.json';
+import { Destination } from './models';
+
+type ShortenedCity = {
+  label: string;
+  value: string;
+};
+
+const shortCities = function (
+  destinationData: Array<Destination>
+): Array<ShortenedCity> {
+  let cityNamesWithState: Array<ShortenedCity> = [];
+  destinationData.forEach((destination: Destination) => {
+    cityNamesWithState.push({
+      label: destination.name + ', ' + destination.state.name,
+      value: destination.name + ', ' + destination.state.shortname,
+    });
+  });
+  return cityNamesWithState;
+};
+
+const stringOptions = shortCities(destinationDataJson);
 
 export default defineComponent({
   name: 'SearchDestinationBox',
@@ -43,10 +72,33 @@ export default defineComponent({
     },
   },
   setup() {
+    const destination = ref({
+      label: ref(''),
+      value: ref(''),
+    });
+    const options = ref(stringOptions);
+
     return {
-      destination: ref(''),
+      destination,
+      options,
+      filterFn(val: string, update: (fn: () => void) => void) {
+        update(() => {
+          const needle = val.toLocaleLowerCase();
+          options.value = stringOptions.filter(
+            (v) => v.label.toLocaleLowerCase().indexOf(needle) > -1
+          );
+        });
+      },
+      setModel(val: string) {
+        stringOptions.forEach((city) => {
+          if (city.label == val) {
+            destination.value = city;
+          }
+        });
+      },
+
       onSubmit: function () {
-        console.log('teste');
+        console.log(destination.value);
       },
     };
   },
