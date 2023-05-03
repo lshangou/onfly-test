@@ -33,7 +33,7 @@ export interface Hotel {
   hasRefundableRoom: boolean;
   hasAgreement: boolean;
   nonRefundable: boolean | null;
-  adress: Address;
+  address: Address;
   images: Array<string>;
   deals: Array<Deal> | null;
   roomsQuantity: boolean;

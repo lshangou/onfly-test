@@ -8,16 +8,17 @@
           @search="(city) => updateSearchResults(city)"
         />
       </div>
-      <div class="col-12">
+      <div class="col-12 row justify-between">
         <BreadcrumbComponent
           :pages="['Início']"
           actualPage="Hotéis"
           :isResultsPage="hasSearchResults"
           :selectedCity="selectedCityTreated"
         />
+        [SELECT]
       </div>
       <div class="col-12" v-if="hasSearchResults">
-        <HotelList :city="selectedCity" />
+        <HotelList :cityId="selectedCityId" />
       </div>
     </main>
   </q-page>
@@ -37,15 +38,18 @@ export default defineComponent({
     const hasSearchResults = ref(false);
     const selectedCityTreated = ref('');
     const selectedCity = ref('');
+    const selectedCityId = ref(0);
 
     return {
       hasSearchResults,
       selectedCityTreated,
       selectedCity,
+      selectedCityId,
       // Atualiza breadcrumb e botão de buscar
       updateSearchResults: function (city: ShortenedCity) {
         hasSearchResults.value = true;
         selectedCity.value = city.value.name;
+        selectedCityId.value = city.value.placeId;
         selectedCityTreated.value =
           city.value.name + ', ' + city.value.state.shortname;
       },

@@ -44,7 +44,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import destinationDataJson from '../data/place.json';
-import { Destination, ShortenedCity, State } from './models';
+import { Destination, ShortenedCity } from './models';
 
 // Importação do JSON em um array e definindo label e valor de acordo com modelo de referência;
 const shortCities = function (
