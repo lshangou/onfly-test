@@ -26,7 +26,10 @@
       </q-card-section>
       <q-card-section align="right">
         <q-btn
-          :disabled="!destination.value || destination.value == ''"
+          :disabled="
+            (destination != null && !destination.label) ||
+            (destination != null && destination.label == '')
+          "
           type="submit"
           rounded
           no-caps
@@ -41,7 +44,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import destinationDataJson from '../data/place.json';
-import { Destination, ShortenedCity } from './models';
+import { Destination, ShortenedCity, State } from './models';
 
 // Importação do JSON em um array e definindo label e valor de acordo com modelo de referência;
 const shortCities = function (
@@ -51,7 +54,7 @@ const shortCities = function (
   destinationData.forEach((destination: Destination) => {
     cityNamesWithState.push({
       label: destination.name + ', ' + destination.state.name,
-      value: destination.name + ', ' + destination.state.shortname,
+      value: destination,
     });
   });
   return cityNamesWithState;
@@ -68,10 +71,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const destination = ref({
-      label: ref(''),
-      value: ref(''),
-    });
+    const destination = ref<ShortenedCity | null>();
     const options = ref(stringOptions);
 
     return {

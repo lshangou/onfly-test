@@ -53,5 +53,5 @@ export interface Destination {
 
 export type ShortenedCity = {
   label: string;
-  value: string;
+  value: Destination;
 };
