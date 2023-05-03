@@ -2,30 +2,44 @@
   <q-page class="row justify-evenly q-pt-lg">
     <main class="col-9">
       <div class="col-12">
-        <q-breadcrumbs class="text-primary">
-          <template v-slot:separator>
-            <q-icon size="1.5em" name="chevron_right" color="primary" />
-          </template>
-          <q-breadcrumbs-el label="Início" />
-          <q-breadcrumbs-el label="Hotéis" class="text-black" />
-        </q-breadcrumbs>
+        <SearchDestinationBox
+          :isResultsPage="hasSearchResults"
+          @search="(city) => updateSearchResults(city)"
+        />
       </div>
       <div class="col-12">
-        <SearchDestinationBox />
+        <BreadcrumbComponent
+          :pages="['Início']"
+          actualPage="Hotéis"
+          :isResultsPage="hasSearchResults"
+          :selectedCity="selectedCity"
+        />
       </div>
     </main>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import SearchDestinationBox from 'components/SearchDestinationBox.vue';
+import BreadcrumbComponent from 'components/BreadcrumbComponent.vue';
+import { ShortenedCity } from '../components/models';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { SearchDestinationBox },
+  components: { SearchDestinationBox, BreadcrumbComponent },
   setup() {
-    return {};
+    const hasSearchResults = ref(false);
+    const selectedCity = ref('');
+
+    return {
+      hasSearchResults,
+      selectedCity,
+      updateSearchResults: function (city: ShortenedCity) {
+        hasSearchResults.value = true;
+        selectedCity.value = city.label.split(',')[0];
+      },
+    };
   },
 });
 </script>

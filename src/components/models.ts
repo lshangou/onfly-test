@@ -59,3 +59,8 @@ export interface Destination {
   state: State;
   placeId: number;
 }
+
+export type ShortenedCity = {
+  label: string;
+  value: string;
+};

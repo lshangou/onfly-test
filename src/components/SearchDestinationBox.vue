@@ -41,12 +41,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import destinationDataJson from '../data/place.json';
-import { Destination } from './models';
-
-type ShortenedCity = {
-  label: string;
-  value: string;
-};
+import { Destination, ShortenedCity } from './models';
 
 const shortCities = function (
   destinationData: Array<Destination>
@@ -96,11 +91,12 @@ export default defineComponent({
           }
         });
       },
-
-      onSubmit: function () {
-        console.log(destination.value);
-      },
     };
+  },
+  methods: {
+    onSubmit() {
+      this.$emit('search', this.destination);
+    },
   },
 });
 </script>
