@@ -15,6 +15,7 @@
           :selectedCity="selectedCity"
         />
       </div>
+      <div class="col-12">[Lista de Hotéis]</div>
     </main>
   </q-page>
 </template>
@@ -35,9 +36,11 @@ export default defineComponent({
     return {
       hasSearchResults,
       selectedCity,
+      // Atualiza breadcrumb e botão de buscar
       updateSearchResults: function (city: ShortenedCity) {
         hasSearchResults.value = true;
-        selectedCity.value = city.label.split(',')[0];
+        selectedCity.value =
+          city.label.split(',')[0] + ', ' + city.value.split(',')[1];
       },
     };
   },

@@ -12,7 +12,7 @@
         <q-select
           outlined
           dense
-          placeholder="Digite uma cidade..."
+          placeholder="Escolha uma cidade..."
           use-input
           hide-selected
           fill-input
@@ -43,6 +43,7 @@ import { defineComponent, ref } from 'vue';
 import destinationDataJson from '../data/place.json';
 import { Destination, ShortenedCity } from './models';
 
+// Importação do JSON em um array e definindo label e valor de acordo com modelo de referência;
 const shortCities = function (
   destinationData: Array<Destination>
 ): Array<ShortenedCity> {
@@ -76,6 +77,7 @@ export default defineComponent({
     return {
       destination,
       options,
+      // Função para filtar cidades disponíveis no autocomplete.
       filterFn(val: string, update: (fn: () => void) => void) {
         update(() => {
           const needle = val.toLocaleLowerCase();
@@ -84,6 +86,7 @@ export default defineComponent({
           );
         });
       },
+      // Atualiza o modelo para ser o objeto completo de cidade resumida.
       setModel(val: string) {
         stringOptions.forEach((city) => {
           if (city.label == val) {
