@@ -1,10 +1,4 @@
 // Hotels
-
-export interface Amenity {
-  key: string;
-  label: string;
-}
-
 export interface Address {
   street: string;
   number: string;
@@ -28,15 +22,15 @@ export interface Hotel {
   description: string;
   stars: string;
   thumb: string;
-  amenities: Array<Amenity>;
-  hasBreakfast: boolean;
-  hasRefundableRoom: boolean;
-  hasAgreement: boolean;
+  amenities: any | null;
+  hasBreakFast: boolean | null;
+  hasRefundableRoom: boolean | null;
+  hasAgreement: boolean | null;
   nonRefundable: boolean | null;
-  address: Address;
-  images: Array<string>;
-  deals: Array<Deal> | null;
-  roomsQuantity: boolean;
+  address: any | null;
+  images: Array<string> | null;
+  deals: null;
+  roomsQuantity: number | null;
 }
 
 // Destinations
