@@ -8,14 +8,23 @@
           @search="(city) => updateSearchResults(city)"
         />
       </div>
-      <div class="col-12 row justify-between">
+      <div class="col-12 row justify-between items-baseline">
         <BreadcrumbComponent
           :pages="['Início']"
           actualPage="Hotéis"
           :isResultsPage="hasSearchResults"
           :selectedCity="selectedCityTreated"
         />
-        [SELECT]
+        <div class="order-wrapper">
+          Ordenar por
+          <q-select
+            dense
+            options-dense
+            borderless
+            v-model="orderMethod"
+            :options="orderMethodList"
+          />
+        </div>
       </div>
       <div class="col-12" v-if="hasSearchResults">
         <HotelList :cityId="selectedCityId" />
@@ -39,6 +48,10 @@ export default defineComponent({
     const selectedCityTreated = ref('');
     const selectedCity = ref('');
     const selectedCityId = ref(0);
+    const orderMethod = ref({
+      value: 'recommended',
+      label: 'Recomendados',
+    });
 
     return {
       hasSearchResults,
@@ -53,7 +66,50 @@ export default defineComponent({
         selectedCityTreated.value =
           city.value.name + ', ' + city.value.state.shortname;
       },
+      //
+      orderMethod,
+      orderMethodList: [
+        {
+          label: 'Recomendados',
+          value: 'recommended',
+        },
+        {
+          label: 'Nome',
+          value: 'name',
+        },
+        {
+          label: 'Avalição',
+          value: 'rating',
+        },
+      ],
     };
   },
 });
 </script>
+<style lang="scss">
+.order-wrapper {
+  display: flex;
+  align-items: baseline;
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  color: $grey;
+  .q-field__native,
+  .q-field__prefix,
+  .q-field__suffix,
+  .q-field__input {
+    margin-left: 4px;
+    color: $primary !important;
+    display: inline;
+    font-size: 12px;
+    font-weight: 500;
+    font-style: italic;
+  }
+  .q-field--dense .q-field__after,
+  .q-field--dense .q-field__append {
+    color: $primary;
+    padding-left: 0px;
+    padding-bottom: 10px;
+  }
+}
+</style>

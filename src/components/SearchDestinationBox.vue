@@ -1,5 +1,5 @@
 <template>
-  <q-card flat class="q-my-md">
+  <q-card flat class="q-mt-md q-mb-sm">
     <q-form @submit="onSubmit">
       <q-card-section class="q-py-sm">
         <div class="text-h6 q-py-none">Reservar Hotel</div>
