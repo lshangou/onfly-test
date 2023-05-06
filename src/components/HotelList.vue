@@ -3,12 +3,16 @@
     <p>Nenhum hotel encontrado.</p>
   </template>
   <template v-else>
-    <q-infinite-scroll @load="onLoad" :offset="250">
-      <pre v-for="hotel in hotelList.slice(0, pageLimit)" :key="hotel.id">
-        <HotelItem :hotel="hotel"/>
-      </pre>
+    <q-infinite-scroll class="row justify-center" @load="onLoad" :offset="250">
+      <div
+        class="col-md-12 col-12"
+        v-for="hotel in hotelList.slice(0, pageLimit)"
+        :key="hotel.id"
+      >
+        <HotelItem :hotel="hotel" />
+      </div>
       <template v-slot:loading v-if="pageLimit <= hotelList.length">
-        <div class="row justify-center q-my-md">
+        <div class="text-center q-my-md">
           <q-spinner-dots color="primary" size="40px" />
         </div>
       </template>
@@ -20,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, Ref } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import HotelItem from './HotelItem.vue';
 import { Hotel } from './models';
 
@@ -55,7 +59,7 @@ export default defineComponent({
             pageLimit.value += 10;
           }
           done();
-        }, 500); //.5 sec
+        }, 1000); //1 sec
       },
     };
   },
