@@ -21,24 +21,26 @@
             dense
             options-dense
             borderless
+            @update:model-value="(val) => getHotelsAfterSearch(val)"
             v-model="orderMethod"
             :options="orderMethodList"
           />
         </div>
       </div>
       <div class="col-12" v-if="hasSearchResults">
-        <HotelList :cityId="selectedCityId" />
+        <HotelList :hotelList="hotelsList" :orderMethod="orderMethod.value" />
       </div>
     </main>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import SearchDestinationBox from 'components/SearchDestinationBox.vue';
 import BreadcrumbComponent from 'components/BreadcrumbComponent.vue';
 import HotelList from 'components/HotelList.vue';
-import { ShortenedCity } from '../components/models';
+import { ShortenedCity, Hotel } from '../components/models';
+import hotelDataJson from '../data/hotel.json';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -48,25 +50,100 @@ export default defineComponent({
     const selectedCityTreated = ref('');
     const selectedCity = ref('');
     const selectedCityId = ref(0);
+    const hotelsList: Ref<Array<Hotel>> = ref([]);
+    const searchedCity: Ref<ShortenedCity | null> = ref(null);
     const orderMethod = ref({
       value: 'recommended',
       label: 'Recomendados',
     });
 
+    const getHotelsAfterSearch = function (method: {
+      label: string;
+      value: string;
+    }) {
+      orderMethod.value = method;
+      getHotels();
+    };
+
+    const getHotels = function () {
+      let data = hotelDataJson.filter((hotelsList) => {
+        return hotelsList.placeId == selectedCityId.value;
+      })[0].hotels;
+      switch (orderMethod.value.value) {
+        case 'recommended':
+          hotelsList.value = orderHotelsByFavorite(data);
+          break;
+        case 'rating':
+          hotelsList.value = orderHotelsByStarRating(data);
+          break;
+        case 'name':
+          hotelsList.value = orderHotelsByName(data);
+          break;
+
+        default:
+          // Sem ordenação, porém inalcançável com a UI.
+          hotelsList.value = data;
+          break;
+      }
+    };
+
+    // Ordenação por Estrelas
+    function orderHotelsByStarRating(hotels: Hotel[]) {
+      return hotels.sort((hotelA: Hotel, hotelB: Hotel) => {
+        if (hotelA.stars > hotelB.stars) {
+          return -1;
+        }
+        if (hotelA.stars < hotelB.stars) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    // Ordenação por Favorito
+    function orderHotelsByFavorite(hotels: Hotel[]) {
+      return hotels.sort((hotelA: Hotel, hotelB: Hotel) => {
+        if (hotelA.favorite && !hotelB.favorite) {
+          return -1;
+        }
+        if (hotelB.favorite && !hotelA.favorite) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    // Ordenação por Nome
+    function orderHotelsByName(hotels: Hotel[]) {
+      return hotels.sort((hotelA: Hotel, hotelB: Hotel) => {
+        let nameA = hotelA.name.toLowerCase();
+        let nameB = hotelB.name.toLowerCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+
     return {
       hasSearchResults,
       selectedCityTreated,
+      searchedCity,
       selectedCity,
       selectedCityId,
       // Atualiza breadcrumb e botão de buscar
       updateSearchResults: function (city: ShortenedCity) {
         hasSearchResults.value = true;
+        searchedCity.value = city;
         selectedCity.value = city.value.name;
         selectedCityId.value = city.value.placeId;
         selectedCityTreated.value =
           city.value.name + ', ' + city.value.state.shortname;
+        getHotels();
       },
-      //
+      getHotelsAfterSearch,
+      hotelsList,
       orderMethod,
       orderMethodList: [
         {
@@ -82,6 +159,9 @@ export default defineComponent({
           value: 'rating',
         },
       ],
+      test: function (val: string) {
+        console.log(val);
+      },
     };
   },
 });
