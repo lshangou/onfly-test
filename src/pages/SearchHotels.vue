@@ -1,7 +1,6 @@
 <template>
   <q-page class="row justify-evenly q-pt-lg">
     <main class="col-9">
-      <pre>{{ selectedCity }}</pre>
       <div class="col-12">
         <SearchDestinationBox
           :isResultsPage="hasSearchResults"
