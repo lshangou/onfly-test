@@ -9,7 +9,10 @@
         v-for="hotel in hotelList.slice(0, pageLimit)"
         :key="hotel.id"
       >
-        <HotelItem :hotel="hotel" />
+        <HotelItem
+          :hotel="hotel"
+          @selectHotel="(val) => $emit('selectHotel', val)"
+        />
       </div>
       <template v-slot:loading v-if="pageLimit <= hotelList.length">
         <div class="text-center q-my-md">
@@ -29,7 +32,7 @@ import HotelItem from './HotelItem.vue';
 import { Hotel } from './models';
 
 export default defineComponent({
-  name: 'BreadcrumbComponent',
+  name: 'HotelList',
   components: { HotelItem },
   props: {
     orderMethod: {

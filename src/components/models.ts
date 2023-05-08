@@ -27,16 +27,18 @@ export interface Hotel {
   hasRefundableRoom: boolean | null;
   hasAgreement: boolean | null;
   nonRefundable: boolean | null;
-  address: {
-    street: string;
-    number: string;
-    district: string;
-    city: string;
-    state: string;
-    country: string;
-    zipCode: any | null;
-    fullAddress: string;
-  };
+  address:
+    | {
+        street: string;
+        number: string;
+        district: string;
+        city: string;
+        state: string;
+        country: string;
+        zipCode: any | null;
+        fullAddress: string;
+      }
+    | any;
   images: Array<string>;
   deals: null;
   roomsQuantity: number | null;

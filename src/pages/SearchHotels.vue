@@ -28,8 +28,18 @@
         </div>
       </div>
       <div class="col-12" v-if="hasSearchResults">
-        <HotelList :hotelList="hotelsList" :orderMethod="orderMethod.value" />
+        <HotelList
+          :hotelList="hotelsList"
+          :orderMethod="orderMethod.value"
+          @selectHotel="(val) => openDrawer(val)"
+        />
       </div>
+      <HotelModal
+        v-if="modalHotel"
+        :showModal="showModal"
+        :hotel="modalHotel"
+        @closeModal="showModal = false"
+      />
     </main>
   </q-page>
 </template>
@@ -39,12 +49,18 @@ import { defineComponent, ref, Ref } from 'vue';
 import SearchDestinationBox from 'components/SearchDestinationBox.vue';
 import BreadcrumbComponent from 'components/BreadcrumbComponent.vue';
 import HotelList from 'components/HotelList.vue';
+import HotelModal from 'components/HotelModal.vue';
 import { ShortenedCity, Hotel } from '../components/models';
 import hotelDataJson from '../data/hotel.json';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { SearchDestinationBox, BreadcrumbComponent, HotelList },
+  components: {
+    SearchDestinationBox,
+    BreadcrumbComponent,
+    HotelList,
+    HotelModal,
+  },
   setup() {
     const hasSearchResults = ref(false);
     const selectedCityTreated = ref('');
@@ -126,6 +142,14 @@ export default defineComponent({
       });
     }
 
+    const showModal = ref(false);
+    const modalHotel: Ref<Hotel | null> = ref(null);
+    const openDrawer = function (hotel: Hotel) {
+      console.log(hotel);
+      showModal.value = true;
+      modalHotel.value = hotel;
+    };
+
     return {
       hasSearchResults,
       selectedCityTreated,
@@ -159,9 +183,9 @@ export default defineComponent({
           value: 'rating',
         },
       ],
-      test: function (val: string) {
-        console.log(val);
-      },
+      openDrawer,
+      showModal,
+      modalHotel,
     };
   },
 });

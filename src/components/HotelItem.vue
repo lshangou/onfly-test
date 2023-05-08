@@ -92,7 +92,12 @@
           >R${{ (hotel.id / 3).toFixed(2) }}/noite</span
         >
         <p class="text-caption text-grey text-bold">Impostos inclusos</p>
-        <q-btn class="q-mt-md" color="primary" rounded no-caps
+        <q-btn
+          class="q-mt-md"
+          color="primary"
+          rounded
+          no-caps
+          @click="$emit('selectHotel', hotel)"
           >Selecionar</q-btn
         >
       </div>
@@ -106,7 +111,7 @@ import { PropType, defineComponent, ref } from 'vue';
 import { Hotel } from './models';
 
 export default defineComponent({
-  name: 'BreadcrumbComponent',
+  name: 'HotelItem',
   props: {
     hotel: {
       required: true,
