@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <q-btn to="/hotels">Reservar Hotéis</q-btn>
+    <q-btn to="/hotels" color="primary" rounded no-caps>Reservar Hotéis</q-btn>
   </q-page>
 </template>
 

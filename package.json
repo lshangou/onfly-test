@@ -1,6 +1,6 @@
 {
   "name": "onfly-test",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Web interface for searching, listing filtering and describing hotels for the tech test on Onfly.",
   "productName": "Technical test for Onfly",
   "author": "lshangou <lucasmenezesba@gmail.com>",

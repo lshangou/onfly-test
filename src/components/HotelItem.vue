@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-mb-md q-mx-auto">
+  <q-card class="q-mb-md q-mx-auto rounded-borders">
     <div class="row">
       <div class="col-12 col-md-4">
         <q-carousel
@@ -148,5 +148,12 @@ export default defineComponent({
   @media (max-width: 1024px) {
     text-align: center;
   }
+}
+.q-carousel {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.q-img {
+  height: 100%;
 }
 </style>

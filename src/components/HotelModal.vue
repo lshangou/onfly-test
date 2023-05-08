@@ -46,7 +46,15 @@
               height="100%"
             >
               <q-carousel-slide name="thumb" class="q-pa-none">
-                <q-img fit="cover" :ratio="3 / 2" :src="hotel.thumb" />
+                <q-img fit="cover" :ratio="3 / 2" :src="hotel.thumb">
+                  <div
+                    class="absolute-bottom text-subtitle1 text-center bg-transparent"
+                  >
+                    <q-chip color="black" class="text-white"
+                      >1/{{ hotel.images.length }}</q-chip
+                    >
+                  </div>
+                </q-img>
               </q-carousel-slide>
               <template v-for="(image, index) in hotel.images" :key="index">
                 <q-carousel-slide
@@ -54,7 +62,15 @@
                   :name="'img-' + index"
                   class="q-pa-none"
                 >
-                  <q-img fit="cover" :ratio="3 / 2" :src="image" />
+                  <q-img fit="cover" :ratio="3 / 2" :src="image">
+                    <div
+                      class="absolute-bottom text-subtitle1 text-center bg-transparent"
+                    >
+                      <q-chip color="black" class="text-white"
+                        >{{ index + 1 }}/{{ hotel.images.length }}</q-chip
+                      >
+                    </div>
+                  </q-img>
                 </q-carousel-slide>
               </template>
             </q-carousel>
