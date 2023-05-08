@@ -58,7 +58,7 @@
                     : amenity.key == 'LAUNDRY'
                     ? 'local_laundry_service'
                     : amenity.key == 'SAFE'
-                    ? 'safe'
+                    ? 'lock'
                     : amenity.key == 'BREAKFAST'
                     ? 'restaurant_menu'
                     : amenity.key == 'PARKING'
@@ -73,7 +73,11 @@
                     ? 'pets'
                     : amenity.key
                 "
-              ></q-icon>
+              >
+                <q-tooltip>
+                  {{ amenity.label }}
+                </q-tooltip>
+              </q-icon>
             </div>
           </template>
         </p>

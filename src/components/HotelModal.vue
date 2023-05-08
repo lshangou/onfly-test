@@ -2,12 +2,12 @@
   <q-dialog v-model="modal" persistent v-if="showModal">
     <q-card>
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Hotel</div>
+        <div class="text-h6">{{ hotel.name }}</div>
         <q-space />
         <q-btn icon="close" flat round dense @click="$emit('closeModal')" />
       </q-card-section>
 
-      <q-card-section style="" class="scroll">
+      <q-card-section style="max-height: 80vh" class="scroll">
         <div class="row">
           <div class="col-12">
             <span class="q-pr-sm">{{ starRating.toFixed(1) }}</span>
@@ -134,7 +134,7 @@
           </div>
           <div class="col-12">
             <div class="col-md-4 col-12">
-              <p class="text-h6 q-mb-none">Conheça um pouco mais</p>
+              <p class="text-h6">Conheça um pouco mais</p>
               <p class="text-grey">{{ hotel.description }}</p>
             </div>
           </div>
